@@ -1,15 +1,38 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:FotoApp.Controls"
              x:Class="FotoApp.MVVM.View.Assignments"
              Title="Assignments">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <controls:IconBar Grid.Row="1" />
+        <StackLayout Padding="20">
+            <Label Text="Huidige Opdracht" FontSize="24" HorizontalOptions="Center" />
+            <Frame Padding="10" Margin="0, 10, 0, 0" BackgroundColor="LightGray">
+                <StackLayout>
+                    <Label Text="{Binding CurrentAssignment.Title}" FontSize="18" />
+                    <Label Text="{Binding CurrentAssignment.Description}" FontSize="14" />
+                    <Image Source="{Binding CurrentPhotoPath}" HeightRequest="200" />
+                    <Button Text="Foto maken" Command="{Binding TakePhotoCommand}" />
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+
+        <StackLayout Grid.Row="1" Padding="20">
+            <Label Text="Aankomende Opdrachten" FontSize="24" HorizontalOptions="Center" />
+            <CollectionView ItemsSource="{Binding UpcomingAssignments}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" BackgroundColor="LightGray" Margin="0,5">
+                            <Label Text="{Binding Title}" FontSize="18" />
+                            <Label Text="{Binding Description}" FontSize="14" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
     </Grid>
 </ContentPage>

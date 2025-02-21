@@ -17,7 +17,9 @@ namespace FotoApp.MVVM.Model
 
         [NotNull]
         public string Description { get; set; }
-
+        [Ignore]
+        public string Countdown { get; set; }
+        public bool IsAvailable { get; set; } = true; // Indicates if the assignment is currently available
         [NotNull]
         public int DeadlineInMinutes { get; set; } // Aangepast van DateTime naar int
 
@@ -26,6 +28,10 @@ namespace FotoApp.MVVM.Model
 
         [NotNull]
         public int ThemeId { get; set; }
+
+        [Ignore]
+        public string ImagePath { get; set; }
+
 
         [Ignore]
         public AssignmentTheme Theme { get; set; }

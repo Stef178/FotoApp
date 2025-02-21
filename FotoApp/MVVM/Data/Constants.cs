@@ -10,31 +10,30 @@ namespace FotoApp.MVVM.Data
     public class Constants
     {
         private readonly SQLiteAsyncConnection _database;
-public Constants(string dbPath)
-{
 
-    _database = new SQLiteAsyncConnection(dbPath);
+        public Constants(string dbPath)
+        {
+            _database = new SQLiteAsyncConnection(dbPath);
 
-    try
-    {
-        // Maak de tabellen opnieuw aan
-        _database.CreateTableAsync<Assignment>().Wait();
-        _database.CreateTableAsync<Comment>().Wait();
-        _database.CreateTableAsync<User>().Wait();
-        _database.CreateTableAsync<Photo>().Wait();
-        _database.CreateTableAsync<Transaction>().Wait();
-        _database.CreateTableAsync<AssignmentTheme>().Wait(); // Voeg de AssignmentTheme-tabel toe
+            try
+            {
+                // Maak de tabellen opnieuw aan
+                _database.CreateTableAsync<Assignment>().Wait();
+                _database.CreateTableAsync<Comment>().Wait();
+                _database.CreateTableAsync<User>().Wait();
+                _database.CreateTableAsync<Photo>().Wait();
+                _database.CreateTableAsync<Transaction>().Wait();
+                _database.CreateTableAsync<AssignmentTheme>().Wait(); // Voeg de AssignmentTheme-tabel toe
 
-                InitializeThemesAsync();// Voeg de standaard thema’s toe
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Error creating tables: {ex.Message}");
-        Console.WriteLine($"StackTrace: {ex.StackTrace}");
-        throw;
-    }
-}
-
+                InitializeThemesAsync(); // Voeg de standaard thema’s toe
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error creating tables: {ex.Message}");
+                Console.WriteLine($"StackTrace: {ex.StackTrace}");
+                throw;
+            }
+        }
 
         public Task<List<T>> GetAllAsync<T>() where T : new()
         {
@@ -103,7 +102,6 @@ public Constants(string dbPath)
             }
         }
 
-       
         public async Task InitializeThemesAsync()
         {
             Console.WriteLine("Controleren op bestaande thema's...");
@@ -112,11 +110,11 @@ public Constants(string dbPath)
             if (existingThemes.Count == 0)
             {
                 var defaultThemes = new List<AssignmentTheme>
-        {
-            new AssignmentTheme { Name = "Natuur" },
-            new AssignmentTheme { Name = "Straat" },
-            new AssignmentTheme { Name = "ZwartWit" }
-        };
+                {
+                    new AssignmentTheme { Name = "Natuur" },
+                    new AssignmentTheme { Name = "Straat" },
+                    new AssignmentTheme { Name = "ZwartWit" }
+                };
 
                 foreach (var theme in defaultThemes)
                 {
@@ -130,6 +128,5 @@ public Constants(string dbPath)
                 Console.WriteLine("Er zijn al thema's aanwezig, geen nieuwe thema's toegevoegd.");
             }
         }
-
     }
 }

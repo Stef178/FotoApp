@@ -1,9 +1,16 @@
-namespace FotoApp.MVVM.View;
+using Microsoft.Maui.Controls;
 
-public partial class Assignments : ContentPage
+namespace FotoApp.MVVM.View
 {
-	public Assignments()
-	{
-		InitializeComponent();
-	}
+    public partial class Assignments : ContentPage
+    {
+        public AssignmentsViewModel ViewModel { get; set; }
+
+        public Assignments()
+        {
+            InitializeComponent();
+            ViewModel = new AssignmentsViewModel();
+            BindingContext = ViewModel;
+        }
+    }
 }
