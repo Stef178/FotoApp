@@ -24,7 +24,7 @@
 
         <Button Text="Inloggen" 
                 Clicked="OnLoginButtonClicked" 
-                BackgroundColor="DarkCyan" 
+                BackgroundColor="Green" 
                 TextColor="White" 
                 CornerRadius="10" 
                 HeightRequest="50" />

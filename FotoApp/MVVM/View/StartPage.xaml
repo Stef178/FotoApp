@@ -10,13 +10,13 @@
 
         <Button Text="Inloggen"
                 Clicked="OnLoginButtonClicked"
-                BackgroundColor="DarkCyan"
+                BackgroundColor="Green"
                 TextColor="White"
                 CornerRadius="8" />
 
         <Button Text="Registreren"
                 Clicked="OnRegisterButtonClicked"
-                BackgroundColor="DarkCyan"
+                BackgroundColor="Green"
                 TextColor="White"
                 CornerRadius="8" />
     </VerticalStackLayout>
