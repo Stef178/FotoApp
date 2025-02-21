@@ -41,7 +41,7 @@ public partial class LoginPage : ContentPage
                 App.CurrentUser = matchingUser;
                 await DisplayAlert("Succes", "U bent succesvol ingelogd!", "OK");
 
-                Application.Current.MainPage = new NavigationPage(new MainPage());
+                Application.Current.MainPage = new NavigationPage(new HomePage());
             }
             else
             {

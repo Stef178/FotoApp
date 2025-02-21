@@ -17,7 +17,7 @@ namespace FotoApp
 
             if (CurrentUser != null)
             {
-                MainPage = new NavigationPage(new MainPage());
+                MainPage = new NavigationPage(new HomePage());
             }
             else
             {
