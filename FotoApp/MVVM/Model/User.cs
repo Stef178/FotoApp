@@ -18,7 +18,9 @@ namespace FotoApp.MVVM.Model
         [NotNull]
         public string Password { get; set; }
         [NotNull]
-        public int Points { get; set; } = 5;
+        public int Points { get; set; } = 0;
+        [NotNull]
+        public Frequency Frequency { get; set; } = Frequency.Daily;
         [NotNull]
         public bool IsActive { get; set; }
         [NotNull]
@@ -34,5 +36,10 @@ namespace FotoApp.MVVM.Model
     {
         Member,
         SuperMember,
+    }
+    public enum Frequency
+    {
+        Weekly,
+        Daily,
     }
 }

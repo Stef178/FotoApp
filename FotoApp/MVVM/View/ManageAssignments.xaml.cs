@@ -62,9 +62,8 @@ namespace FotoApp.MVVM.View
             string title = await DisplayPromptAsync("Nieuwe Opdracht", "Titel:");
             string description = await DisplayPromptAsync("Nieuwe Opdracht", "Beschrijving:");
 
-            DateTime deadline = await DisplayAlert("Deadline instellen", "Wil je een deadline instellen?", "Ja", "Nee")
-                                ? await DisplayDatePickerAsync()
-                                : DateTime.Now;
+            string deadlineInput = await DisplayPromptAsync("Deadline instellen", "Voer de deadline in (aantal minuten):");
+            int deadlineInMinutes = int.TryParse(deadlineInput, out int minutes) ? minutes : 0;
 
             var theme = Themes.FirstOrDefault(t => t.Name == selectedTheme);
             if (theme == null)
@@ -83,7 +82,7 @@ namespace FotoApp.MVVM.View
             {
                 Title = title,
                 Description = description,
-                Deadline = deadline,
+                DeadlineInMinutes = deadlineInMinutes,
                 ThemeId = theme.Id
             };
 
@@ -123,7 +122,8 @@ namespace FotoApp.MVVM.View
                     string newTitle = await DisplayPromptAsync("Bewerken", "Nieuwe titel:", initialValue: assignment.Title);
                     string newDescription = await DisplayPromptAsync("Bewerken", "Nieuwe beschrijving:", initialValue: assignment.Description);
 
-                    DateTime newDeadline = await DisplayDatePickerAsync();
+                    string newDeadlineInput = await DisplayPromptAsync("Bewerken", "Nieuwe deadline (aantal minuten):", initialValue: assignment.DeadlineInMinutes.ToString());
+                    int newDeadlineInMinutes = int.TryParse(newDeadlineInput, out int newMinutes) ? newMinutes : assignment.DeadlineInMinutes;
 
                     if (string.IsNullOrWhiteSpace(newTitle) || string.IsNullOrWhiteSpace(newDescription))
                     {
@@ -134,19 +134,13 @@ namespace FotoApp.MVVM.View
                     var theme = Themes.FirstOrDefault(t => t.Name == selectedTheme);
                     assignment.Title = newTitle;
                     assignment.Description = newDescription;
-                    assignment.Deadline = newDeadline;
+                    assignment.DeadlineInMinutes = newDeadlineInMinutes; // Bijwerken van de deadline
                     assignment.ThemeId = theme.Id; // Bijwerken van het thema
 
                     await App.Database.UpdateAsync(assignment);
                     LoadAssignments();
                 }
             }
-        }
-
-        private async Task<DateTime> DisplayDatePickerAsync()
-        {
-            var result = await DisplayPromptAsync("Datum invoeren", "Voer een deadline in (yyyy-MM-dd):");
-            return DateTime.TryParse(result, out DateTime selectedDate) ? selectedDate : DateTime.Now;
         }
     }
 }

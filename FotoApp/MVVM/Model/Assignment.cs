@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using SQLite;
 
-
 namespace FotoApp.MVVM.Model
 {
     public class Assignment
@@ -20,7 +19,7 @@ namespace FotoApp.MVVM.Model
         public string Description { get; set; }
 
         [NotNull]
-        public DateTime Deadline { get; set; }
+        public int DeadlineInMinutes { get; set; } // Aangepast van DateTime naar int
 
         [NotNull]
         public bool IsCompleted { get; set; } = false;
@@ -31,6 +30,7 @@ namespace FotoApp.MVVM.Model
         [Ignore]
         public AssignmentTheme Theme { get; set; }
     }
+
     public class AssignmentTheme
     {
         [PrimaryKey, AutoIncrement]
