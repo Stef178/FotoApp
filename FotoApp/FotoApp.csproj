@@ -66,6 +66,8 @@
 
 	<ItemGroup>
 	  <Folder Include="MVVM\Data\" />
+	  <Folder Include="MVVM\ViewModel\" />
+	  <Folder Include="MVVM\View\" />
 	</ItemGroup>
 
 </Project>
