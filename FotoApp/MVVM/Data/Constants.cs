@@ -63,5 +63,44 @@ namespace FotoApp.MVVM.Data
         {
             return _database.FindAsync<T>(id);
         }
+        public User GetActiveUser()
+        {
+            try
+            {
+
+                return _database.Table<User>().Where(p => p.IsActive).FirstOrDefaultAsync().Result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving active user: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task SetActiveUser(int userId)
+        {
+            try
+            {
+
+                var allParticipants = await _database.Table<User>().ToListAsync();
+                foreach (var participant in allParticipants)
+                {
+                    participant.IsActive = false;
+                    await _database.UpdateAsync(participant);
+                }
+
+
+                var activeUser = await _database.Table<User>().Where(p => p.Id == userId).FirstOrDefaultAsync();
+                if (activeUser != null)
+                {
+                    activeUser.IsActive = true;
+                    await _database.UpdateAsync(activeUser);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error setting active user: {ex.Message}");
+            }
+        }
     }
 }

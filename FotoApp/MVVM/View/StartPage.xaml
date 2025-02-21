@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FotoApp.MVVM.View.StartPage"
+             Title="FotoApp"
+             BackgroundColor="{DynamicResource AppBackgroundColor}">
+    <VerticalStackLayout Padding="20" Spacing="30" VerticalOptions="Center">
+
+        <Label Text="Welkom bij de FotoApp" FontSize="24" HorizontalOptions="Center" />
+
+        <Button Text="Inloggen"
+                Clicked="OnLoginButtonClicked"
+                BackgroundColor="DarkCyan"
+                TextColor="White"
+                CornerRadius="8" />
+
+        <Button Text="Registreren"
+                Clicked="OnRegisterButtonClicked"
+                BackgroundColor="DarkCyan"
+                TextColor="White"
+                CornerRadius="8" />
+    </VerticalStackLayout>
+</ContentPage>

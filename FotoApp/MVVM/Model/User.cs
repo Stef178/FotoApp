@@ -20,6 +20,8 @@ namespace FotoApp.MVVM.Model
         [NotNull]
         public int Points { get; set; } = 5;
         [NotNull]
+        public bool IsActive { get; set; }
+        [NotNull]
         public bool IsSuperMember { get; set; } = false;
         [NotNull]
         public UserRole Role { get; set; } = UserRole.Member;
