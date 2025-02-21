@@ -10,6 +10,18 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <Label Text="Instellingen voor frequentie" FontSize="Large" HorizontalOptions="Center" />
+
+        <Button Text="Kies Frequentie" Clicked="OnChooseFrequencyClicked" 
+                BackgroundColor="Green" 
+                TextColor="White" 
+                FontSize="16" 
+                Padding="10"
+                CornerRadius="5" 
+                WidthRequest="200" 
+                HorizontalOptions="Center" 
+                VerticalOptions="CenterAndExpand"/>
+
         <controls:IconBar Grid.Row="1" />
     </Grid>
 </ContentPage>
