@@ -35,6 +35,11 @@ namespace FotoApp
         {
             await Navigation.PushAsync(new ManageUser());
         }
+        private async void OnManageAssignmentsClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new ManageAssignments());
+        }
+
     }
 
 }

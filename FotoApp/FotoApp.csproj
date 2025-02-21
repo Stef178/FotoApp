@@ -82,6 +82,9 @@
 	  <MauiXaml Update="MVVM\View\LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="MVVM\View\ManageAssignments.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="MVVM\View\ManageUser.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

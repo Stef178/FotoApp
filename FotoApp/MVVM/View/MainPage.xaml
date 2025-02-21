@@ -22,11 +22,20 @@
 
                 <Button Text="Beheer Gebruikers"
                     Clicked="OnManageUsersClicked"
-                    BackgroundColor="Blue"
+                    BackgroundColor="Green"
                     TextColor="White"
                     CornerRadius="8"
                     HorizontalOptions="Fill"
                     VerticalOptions="Center" />
+
+                <Button 
+                   Text="Beheer Opdrachten" 
+                   Clicked="OnManageAssignmentsClicked" 
+                   BackgroundColor="Green" 
+                   TextColor="White" 
+                   CornerRadius="8" 
+                   HorizontalOptions="Fill" 
+                   VerticalOptions="Center" />
 
                 <Button 
                     Text="Uitloggen" 
@@ -38,8 +47,6 @@
                     VerticalOptions="End" />
             </VerticalStackLayout>
         </ScrollView>
-
-        <controls:IconBar Grid.Row="1" />
     </Grid>
 
 </ContentPage>
