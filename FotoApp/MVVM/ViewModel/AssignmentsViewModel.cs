@@ -1,5 +1,4 @@
-﻿// AssignmentsViewModel.cs
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -15,12 +14,12 @@ namespace FotoApp.MVVM.View
         private Assignment _currentAssignment;
         private string _currentPhotoPath;
         private ObservableCollection<Assignment> _upcomingAssignments;
+        private bool _isSaveButtonVisible;
 
         public AssignmentsViewModel()
         {
             _upcomingAssignments = new ObservableCollection<Assignment>();
-            LoadCurrentAssignment();
-            LoadUpcomingAssignments();
+            LoadAssignments();
         }
 
         public Assignment CurrentAssignment
@@ -41,6 +40,7 @@ namespace FotoApp.MVVM.View
             {
                 _currentPhotoPath = value;
                 OnPropertyChanged(nameof(CurrentPhotoPath));
+                IsSaveButtonVisible = !string.IsNullOrEmpty(value);
             }
         }
 
@@ -56,22 +56,31 @@ namespace FotoApp.MVVM.View
 
         public bool IsAssignmentActive => CurrentAssignment != null;
 
-        private async void LoadCurrentAssignment()
+        public bool IsSaveButtonVisible
         {
-            var assignments = await App.Database.GetAllAsync<Assignment>();
-            CurrentAssignment = assignments.FirstOrDefault(a => a.IsAvailable);
+            get => _isSaveButtonVisible;
+            set
+            {
+                _isSaveButtonVisible = value;
+                OnPropertyChanged(nameof(IsSaveButtonVisible));
+            }
         }
 
-        private async void LoadUpcomingAssignments()
+        private async void LoadAssignments()
         {
             var assignments = await App.Database.GetAllAsync<Assignment>();
-            foreach (var assignment in assignments)
+            var availableAssignments = assignments.Where(a => !a.IsCompleted).ToList();
+
+            CurrentAssignment = availableAssignments.FirstOrDefault();
+            UpcomingAssignments.Clear();
+            foreach (var assignment in availableAssignments.Skip(1))
             {
                 UpcomingAssignments.Add(assignment);
             }
         }
 
         public ICommand TakePhotoCommand => new Command(async () => await ExecuteTakePhoto());
+        public ICommand SavePhotoCommand => new Command(async () => await ExecuteSavePhoto());
 
         private async Task ExecuteTakePhoto()
         {
@@ -87,10 +96,6 @@ namespace FotoApp.MVVM.View
                     await stream.CopyToAsync(fileStream);
                 }
 
-                // Save photo in database
-                var newPhoto = new Photo { ImagePath = filePath, UserId = App.Database.GetActiveUser().Id };
-                await App.Database.AddAsync(newPhoto);
-
                 CurrentPhotoPath = filePath;
             }
             catch (Exception ex)
@@ -99,7 +104,38 @@ namespace FotoApp.MVVM.View
             }
         }
 
+        private async Task ExecuteSavePhoto()
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(CurrentPhotoPath)) return;
+
+                var newPhoto = new Photo { ImagePath = CurrentPhotoPath, UserId = App.Database.GetActiveUser().Id };
+                await App.Database.AddAsync(newPhoto);
+
+                // Markeer de opdracht als voltooid en update de database
+                if (CurrentAssignment != null)
+                {
+                    CurrentAssignment.IsCompleted = true;
+                    await App.Database.UpdateAsync(CurrentAssignment);
+                }
+
+                // Opdracht verwijderen uit de UI
+                CurrentAssignment = null;
+                IsSaveButtonVisible = false;
+                CurrentPhotoPath = string.Empty;
+
+                // Laad de lijst opnieuw om de volgende opdracht te tonen
+                LoadAssignments();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving photo: {ex.Message}");
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected void OnPropertyChanged(string propertyName) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FotoApp.MVVM.View.Assignments"
@@ -17,6 +16,8 @@
                     <Label Text="{Binding CurrentAssignment.Description}" FontSize="14" />
                     <Image Source="{Binding CurrentPhotoPath}" HeightRequest="200" />
                     <Button Text="Foto maken" Command="{Binding TakePhotoCommand}" />
+                    <Button Text="Opslaan" Command="{Binding SavePhotoCommand}" 
+                            IsVisible="{Binding IsSaveButtonVisible}" />
                 </StackLayout>
             </Frame>
         </StackLayout>

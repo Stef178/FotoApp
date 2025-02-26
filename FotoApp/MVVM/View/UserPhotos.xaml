@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:FotoApp.MVVM.ViewModel"
+             x:Class="FotoApp.MVVM.View.UserPhotos">
+
+    <VerticalStackLayout>
+        <CollectionView ItemsSource="{Binding UserPhotos}" x:Name="PhotosCollectionView">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout Padding="10">
+                        <!-- Foto -->
+                        <Image Source="{Binding ImagePath}" 
+                               HeightRequest="200"
+                               Aspect="AspectFill"
+                               HorizontalOptions="Center" />
+
+                        <!-- Verwijder knop -->
+                        <Button Text="Verwijder Foto"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeletePhotoCommand}"
+                                CommandParameter="{Binding ImagePath}" />
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>

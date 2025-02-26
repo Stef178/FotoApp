@@ -19,6 +19,7 @@ namespace FotoApp.MVVM.ViewModel
             {
 				"HomePage" => new FotoApp.MVVM.View.HomePage(),
                 "Assignments" => new FotoApp.MVVM.View.Assignments(),
+                "UserPhotos" => new FotoApp.MVVM.View.UserPhotos(),
                 "User" => new FotoApp.MVVM.View.UserManagement(),
                 _ => null
 			};
