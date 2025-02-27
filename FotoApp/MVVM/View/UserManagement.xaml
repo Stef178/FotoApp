@@ -1,27 +1,64 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:FotoApp.Controls"
+             xmlns:local="clr-namespace:FotoApp.MVVM.ViewModel"
              x:Class="FotoApp.MVVM.View.UserManagement"
-             Title="UserManagement">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+             Title="User Management">
 
-        <Label Text="Instellingen voor frequentie" FontSize="Large" HorizontalOptions="Center" />
+    <ContentPage.BindingContext>
+        <local:UserManagementViewModel />
+    </ContentPage.BindingContext>
 
-        <Button Text="Kies Frequentie" Clicked="OnChooseFrequencyClicked" 
-                BackgroundColor="Green" 
-                TextColor="White" 
-                FontSize="16" 
-                Padding="10"
-                CornerRadius="5" 
-                WidthRequest="200" 
-                HorizontalOptions="Center" 
-                VerticalOptions="CenterAndExpand"/>
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="30">
 
-        <controls:IconBar Grid.Row="1" />
-    </Grid>
+            <!-- Titel Sectie -->
+            <StackLayout Spacing="5" HorizontalOptions="Center">
+                <Label Text="Account Beheer" FontSize="Large" FontAttributes="Bold" />
+                <BoxView HeightRequest="2" WidthRequest="200" Color="Black" HorizontalOptions="Center" />
+            </StackLayout>
+
+            <!-- Frequentie Instellingen -->
+            <StackLayout Padding="15" Spacing="10">
+                <Label Text="{Binding CurrentUser.Frequency, StringFormat='Je huidige frequentie: {0}'}"
+                       FontSize="18" 
+                       HorizontalOptions="Center" />
+                <Picker Title="Kies een frequentie"
+                        ItemsSource="{Binding Frequencies}"
+                        SelectedItem="{Binding CurrentUser.Frequency, Mode=TwoWay}"
+                        HorizontalOptions="Center"
+                        WidthRequest="250" />
+            </StackLayout>
+
+            <!-- Punten Balans -->
+            <StackLayout Padding="15" Spacing="10">
+                <Label Text="Punten Balans:" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" />
+                <Label Text="{Binding PointsBalance}" FontSize="22" TextColor="Green" HorizontalOptions="Center" />
+                <Button Text="Koop Punten (1 Euro per punt)"
+                        Command="{Binding BuyPointsCommand}"
+                        BackgroundColor="Green" 
+                        TextColor="White"
+                        Padding="10" />
+            </StackLayout>
+
+            <!-- Supermembership Sectie -->
+            <StackLayout Padding="15" Spacing="15">
+                <Label Text="Supermembership" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" />
+                <Button Text="Koop Supermembership (5 Euro per maand)" 
+                        Command="{Binding BuySuperMembershipCommand}" 
+                        BackgroundColor="Green" 
+                        TextColor="White"
+                        Padding="10" />
+
+                <Button Text="Annuleer Supermembership" 
+                        Command="{Binding CancelSuperMembershipCommand}"
+                        BackgroundColor="Red"
+                        TextColor="White"
+                        IsVisible="{Binding IsSuperMember}"
+                        Padding="10" />
+
+                <Label Text="{Binding SuperMembershipStatus}" FontSize="18" HorizontalOptions="Center" />
+            </StackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
