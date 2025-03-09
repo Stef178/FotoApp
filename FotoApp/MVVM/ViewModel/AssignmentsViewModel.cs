@@ -29,7 +29,8 @@ namespace FotoApp.MVVM.View
             {
                 _currentAssignment = value;
                 OnPropertyChanged(nameof(CurrentAssignment));
-                OnPropertyChanged(nameof(IsAssignmentActive));
+                OnPropertyChanged(nameof(IsCurrentAssignmentEmpty));
+                OnPropertyChanged(nameof(IsCurrentAssignmentAvailable));
             }
         }
 
@@ -51,10 +52,10 @@ namespace FotoApp.MVVM.View
             {
                 _upcomingAssignments = value;
                 OnPropertyChanged(nameof(UpcomingAssignments));
+                OnPropertyChanged(nameof(IsUpcomingAssignmentsEmpty));
+                OnPropertyChanged(nameof(IsUpcomingAssignmentsAvailable));
             }
         }
-
-        public bool IsAssignmentActive => CurrentAssignment != null;
 
         public bool IsSaveButtonVisible
         {
@@ -65,6 +66,11 @@ namespace FotoApp.MVVM.View
                 OnPropertyChanged(nameof(IsSaveButtonVisible));
             }
         }
+
+        public bool IsCurrentAssignmentEmpty => CurrentAssignment == null;
+        public bool IsCurrentAssignmentAvailable => CurrentAssignment != null;
+        public bool IsUpcomingAssignmentsEmpty => !UpcomingAssignments.Any();
+        public bool IsUpcomingAssignmentsAvailable => UpcomingAssignments.Any();
 
         private async void LoadAssignments()
         {
@@ -77,6 +83,11 @@ namespace FotoApp.MVVM.View
             {
                 UpcomingAssignments.Add(assignment);
             }
+
+            OnPropertyChanged(nameof(IsCurrentAssignmentEmpty));
+            OnPropertyChanged(nameof(IsCurrentAssignmentAvailable));
+            OnPropertyChanged(nameof(IsUpcomingAssignmentsEmpty));
+            OnPropertyChanged(nameof(IsUpcomingAssignmentsAvailable));
         }
 
         public ICommand TakePhotoCommand => new Command(async () => await ExecuteTakePhoto());
@@ -113,19 +124,16 @@ namespace FotoApp.MVVM.View
                 var newPhoto = new Photo { ImagePath = CurrentPhotoPath, UserId = App.Database.GetActiveUser().Id };
                 await App.Database.AddAsync(newPhoto);
 
-                // Markeer de opdracht als voltooid en update de database
                 if (CurrentAssignment != null)
                 {
                     CurrentAssignment.IsCompleted = true;
                     await App.Database.UpdateAsync(CurrentAssignment);
                 }
 
-                // Opdracht verwijderen uit de UI
                 CurrentAssignment = null;
                 IsSaveButtonVisible = false;
                 CurrentPhotoPath = string.Empty;
 
-                // Laad de lijst opnieuw om de volgende opdracht te tonen
                 LoadAssignments();
             }
             catch (Exception ex)

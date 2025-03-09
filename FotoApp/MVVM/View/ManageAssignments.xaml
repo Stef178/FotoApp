@@ -4,68 +4,62 @@
              x:Class="FotoApp.MVVM.View.ManageAssignments"
              Title="Beheer Opdrachten">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <VerticalStackLayout Padding="20">
+        <Label Text="Opdrachtenbeheer" FontSize="Large" HorizontalOptions="Center"/>
 
-        <ScrollView Grid.Row="0" Padding="20">
-            <VerticalStackLayout>
-                <Label Text="Opdrachtenbeheer" FontSize="Large" HorizontalOptions="Center"/>
+        <Button x:Name="AddAssignmentButton" Text="Nieuwe opdracht toevoegen" 
+                Clicked="OnAddAssignment" 
+                BackgroundColor="Green" 
+                TextColor="White" 
+                FontAttributes="Bold"
+                Padding="10"
+                CornerRadius="5"
+                BorderWidth="0"
+                HeightRequest="40" />
 
-                <Button x:Name="AddAssignmentButton" Text="Nieuwe opdracht toevoegen" 
-                        Clicked="OnAddAssignment" 
-                        BackgroundColor="Green" 
-                        TextColor="White" 
-                        FontAttributes="Bold"
-                        Padding="10"
-                        CornerRadius="5"
-                        BorderWidth="0"
-                        HeightRequest="40" />
-                <!-- Knop altijd zichtbaar -->
+        <!-- Opdrachtenlijst zonder scroll -->
+        <CollectionView x:Name="AssignmentsCollectionView" ItemsSource="{Binding Assignments}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="10" Margin="5" BorderColor="LightGray">
+                        <VerticalStackLayout Spacing="5">
+                            <!-- Opdrachtinformatie -->
+                            <Label Text="{Binding Title}" FontSize="Medium" HorizontalOptions="StartAndExpand"/>
+                            <Label Text="{Binding Theme.Name}" FontSize="Small" TextColor="Gray"/>
+                            <Label Text="{Binding DeadlineInMinutes, StringFormat='Deadline: {0} minuten'}" FontSize="Small" TextColor="Gray"/>
 
-                <ListView x:Name="AssignmentsListView" ItemsSource="{Binding Assignments}" SelectionMode="None">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <HorizontalStackLayout Padding="10">
-                                    <Label Text="{Binding Title}" FontSize="Medium" HorizontalOptions="StartAndExpand"/>
-                                    <Label Text="{Binding Theme.Name}" FontSize="Small" TextColor="Gray"/>
+                            <!-- Knoppen onder de opdracht -->
+                            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                                <Button Text="Bewerk" 
+                                        Clicked="OnEditAssignment" 
+                                        CommandParameter="{Binding Id}" 
+                                        BackgroundColor="Blue"
+                                        TextColor="White"
+                                        FontSize="16"
+                                        FontAttributes="Bold"
+                                        Padding="10"
+                                        WidthRequest="100"
+                                        HeightRequest="40"
+                                        CornerRadius="5"
+                                        BorderWidth="0"/>
 
-                                    <Label Text="{Binding DeadlineInMinutes, StringFormat='Deadline: {0} minuten'}" FontSize="Small" TextColor="Gray"/>
-
-                                    <Button Text="Bewerk" 
-                                            Clicked="OnEditAssignment" 
-                                            CommandParameter="{Binding Id}" 
-                                            BackgroundColor="Blue"
-                                            TextColor="White"
-                                            FontSize="16"
-                                            FontAttributes="Bold"
-                                            Padding="10"
-                                            WidthRequest="100"
-                                            HeightRequest="40"
-                                            CornerRadius="5"
-                                            BorderWidth="0"/>
-
-                                    <Button Text="Verwijder" 
-                                            Clicked="OnDeleteAssignment" 
-                                            CommandParameter="{Binding Id}" 
-                                            BackgroundColor="Red"
-                                            TextColor="White"
-                                            FontSize="16"
-                                            FontAttributes="Bold"
-                                            Padding="10"
-                                            WidthRequest="100"
-                                            HeightRequest="40"
-                                            CornerRadius="5"
-                                            BorderWidth="0"/>
-                                </HorizontalStackLayout>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </VerticalStackLayout>
-        </ScrollView>
-    </Grid>
+                                <Button Text="Verwijder" 
+                                        Clicked="OnDeleteAssignment" 
+                                        CommandParameter="{Binding Id}" 
+                                        BackgroundColor="Red"
+                                        TextColor="White"
+                                        FontSize="16"
+                                        FontAttributes="Bold"
+                                        Padding="10"
+                                        WidthRequest="100"
+                                        HeightRequest="40"
+                                        CornerRadius="5"
+                                        BorderWidth="0"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
 </ContentPage>
