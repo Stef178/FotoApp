@@ -17,11 +17,13 @@ namespace FotoApp.MVVM.Model
 
         [NotNull]
         public string Description { get; set; }
+
         [Ignore]
         public string Countdown { get; set; }
+
         public bool IsAvailable { get; set; } = true; // Indicates if the assignment is currently available
         [NotNull]
-        public int DeadlineInMinutes { get; set; } // Aangepast van DateTime naar int
+        public int DeadlineInMinutes { get; set; } // Time limit for the assignment in minutes
 
         [NotNull]
         public bool IsCompleted { get; set; } = false;
@@ -32,12 +34,18 @@ namespace FotoApp.MVVM.Model
         [Ignore]
         public string ImagePath { get; set; }
 
-
         [Ignore]
         public AssignmentTheme Theme { get; set; }
-    }
 
-    public class AssignmentTheme
+        // Nieuwe eigenschappen voor timerfunctionaliteit
+        public int RemainingTimeInMinutes { get; set; } = 0; // Resterende tijd voor de opdracht
+        public bool IsTimerRunning { get; set; } = false; // Of de timer actief is
+    }
+}
+
+
+
+public class AssignmentTheme
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
@@ -45,4 +53,3 @@ namespace FotoApp.MVVM.Model
         [NotNull]
         public string Name { get; set; }
     }
-}

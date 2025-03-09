@@ -17,10 +17,23 @@
                         <Label Text="{Binding CurrentAssignment.Title}" FontSize="18" />
                         <Label Text="{Binding CurrentAssignment.Description}" FontSize="14" />
                         <Image Source="{Binding CurrentPhotoPath}" HeightRequest="200" />
+
+                        <!-- Foto maken knop -->
                         <Button Text="Foto maken" Command="{Binding TakePhotoCommand}" 
-                                IsVisible="{Binding IsCurrentAssignmentAvailable}" />
+                                IsVisible="{Binding IsPhotoButtonVisible}" />
+
+                        <!-- Opslaan knop -->
                         <Button Text="Opslaan" Command="{Binding SavePhotoCommand}" 
                                 IsVisible="{Binding IsSaveButtonVisible}" />
+
+                        <!-- Start opdracht knop -->
+                        <Button Text="Start Opdracht" Command="{Binding StartTimerCommand}"
+                                IsVisible="{Binding IsStartButtonVisible}" />
+
+                        <!-- Countdown van resterende tijd -->
+                        <Label Text="{Binding TimerText}" 
+                               IsVisible="{Binding IsTimerVisible}" 
+                               FontSize="Medium" HorizontalOptions="Center" />
                     </StackLayout>
                 </Frame>
             </StackLayout>
