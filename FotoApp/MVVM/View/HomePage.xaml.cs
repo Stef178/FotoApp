@@ -25,7 +25,6 @@ namespace FotoApp.MVVM.View
             {
                 // OpenWeatherMap API gegevens
                 string apiKey = "f10226c44c4855a55cac1d73b84c0cbc";
-                // Gebruik "Heerlen,NL" zodat de locatie duidelijk is
                 string city = "Heerlen,NL";
                 string url = $"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={apiKey}&units=metric";
 
@@ -50,7 +49,6 @@ namespace FotoApp.MVVM.View
                     }
                     else
                     {
-                        // Log de response-content voor meer inzicht
                         var errorContent = await response.Content.ReadAsStringAsync();
                         WeatherLabel.Text = $"Weer info niet beschikbaar ({response.StatusCode}): {errorContent}";
                     }
@@ -81,6 +79,12 @@ namespace FotoApp.MVVM.View
         private async void OnViewOtherPhotosClicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new CommentsPage());
+        }
+
+        // Nieuwe navigatie naar de Inspiratie-pagina
+        private async void OnInspirationClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new InspirationPage());
         }
     }
 }

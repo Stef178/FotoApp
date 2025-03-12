@@ -25,9 +25,20 @@
                 CornerRadius="8"
                 HorizontalOptions="Fill"
                 VerticalOptions="End" />
+
             <Button 
                 Text="Foto's van andere bekijken" 
                 Clicked="OnViewOtherPhotosClicked"
+                BackgroundColor="Green"
+                TextColor="White"
+                CornerRadius="8"
+                HorizontalOptions="Fill"
+                VerticalOptions="Center" />
+
+            <!-- Nieuwe knop voor Inspiratie -->
+            <Button 
+                Text="Inspiratie" 
+                Clicked="OnInspirationClicked"
                 BackgroundColor="Green"
                 TextColor="White"
                 CornerRadius="8"

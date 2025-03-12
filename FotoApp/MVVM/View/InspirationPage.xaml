@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FotoApp.MVVM.View.InspirationPage"
+             Title="Inspiratie">
+    <!-- Wrap de hele inhoud in een ScrollView -->
+    <ScrollView>
+        <VerticalStackLayout>
+            <Label Text="Inspiratie" 
+             FontSize="Large"
+             HorizontalOptions="Center"/>
+            <CollectionView x:Name="PhotosCollectionView">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="10" Margin="5" BorderColor="Gray" CornerRadius="5">
+                            <StackLayout Spacing="10">
+                                <Image Source="{Binding PhotoUrl}"
+                       Aspect="AspectFill"
+                       HeightRequest="200"/>
+                                <Label Text="{Binding Photographer}"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"/>
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
