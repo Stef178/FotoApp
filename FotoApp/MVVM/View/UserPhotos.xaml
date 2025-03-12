@@ -2,23 +2,37 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:FotoApp.MVVM.ViewModel"
-             x:Class="FotoApp.MVVM.View.UserPhotos">
-
+             x:Class="FotoApp.MVVM.View.UserPhotos"
+             Title="Mijn Foto's">
     <VerticalStackLayout>
         <CollectionView ItemsSource="{Binding UserPhotos}" x:Name="PhotosCollectionView">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <VerticalStackLayout Padding="10">
+                    <VerticalStackLayout Padding="10" Spacing="10">
                         <!-- Foto -->
                         <Image Source="{Binding ImagePath}" 
-                               HeightRequest="200"
-                               Aspect="AspectFill"
-                               HorizontalOptions="Center" />
+                   HeightRequest="200"
+                   Aspect="AspectFill"
+                   HorizontalOptions="Center" />
+
+                        <!-- Weergeef de reacties -->
+                        <Label Text="Reacties:" FontAttributes="Bold" />
+                        <CollectionView ItemsSource="{Binding Comments}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout Orientation="Horizontal" Spacing="5">
+                                        <Label Text="{Binding User.Username}" FontAttributes="Bold"/>
+                                        <Label Text=":"/>
+                                        <Label Text="{Binding Text}" />
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
 
                         <!-- Verwijder knop -->
                         <Button Text="Verwijder Foto"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeletePhotoCommand}"
-                                CommandParameter="{Binding ImagePath}" />
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeletePhotoCommand}"
+                    CommandParameter="{Binding ImagePath}" />
                     </VerticalStackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

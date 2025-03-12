@@ -20,19 +20,30 @@ namespace FotoApp.MVVM.ViewModel
         {
             // Haal de actieve gebruiker op
             var activeUser = App.Database.GetActiveUser();
-            // Haal alle foto's op
+
+            // Haal alle foto's en gebruikers op
             var allPhotos = await App.Database.GetAllAsync<Photo>();
+            var allUsers = await App.Database.GetAllAsync<User>();
+
             // Filter foto's waarvan de UserId NIET gelijk is aan die van de actieve gebruiker
-            var filteredPhotos = allPhotos.Where(p => p.UserId != activeUser.Id);
+            var filteredPhotos = allPhotos.Where(p => p.UserId != activeUser.Id).ToList();
 
             Photos.Clear();
 
-            // Haal eerst alle comments op (zodat we niet voor elke foto apart de DB moeten aanspreken)
+            // Haal eerst alle comments op
             var allComments = await App.Database.GetAllAsync<Comment>();
 
             foreach (var photo in filteredPhotos)
             {
+                // Vul de user voor de foto
+                photo.User = allUsers.FirstOrDefault(u => u.Id == photo.UserId);
+
+                // Filter de comments voor deze foto en vul de user-informatie
                 var photoComments = allComments.Where(c => c.PhotoId == photo.Id).ToList();
+                foreach (var comment in photoComments)
+                {
+                    comment.User = allUsers.FirstOrDefault(u => u.Id == comment.UserId);
+                }
                 Photos.Add(new PhotoItemViewModel(photo, photoComments));
             }
         }
@@ -78,15 +89,25 @@ namespace FotoApp.MVVM.ViewModel
             if (string.IsNullOrWhiteSpace(NewCommentText))
                 return;
 
-            // Maak een nieuwe comment aan (zorg dat PhotoId niet genegeerd wordt in je model)
+            // Zorg dat de actieve gebruiker beschikbaar is (bijv. via App.CurrentUser)
+            var activeUser = App.CurrentUser;
+            if (activeUser == null)
+                return; // of geef een foutmelding
+
+            // Maak een nieuwe comment aan en vul de UserId in
             var comment = new Comment
             {
                 Text = NewCommentText,
-                PhotoId = Photo.Id
+                PhotoId = Photo.Id,
+                UserId = activeUser.Id
             };
 
             // Sla de comment op in de database
             await App.Database.AddAsync(comment);
+
+            // Stel de User property in zodat de naam direct beschikbaar is
+            comment.User = activeUser;
+
             Comments.Add(comment);
             NewCommentText = string.Empty;
         }
