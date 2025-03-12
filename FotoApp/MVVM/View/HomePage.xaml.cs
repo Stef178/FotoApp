@@ -1,3 +1,9 @@
+using System;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Microsoft.Maui.Controls;
+
 namespace FotoApp.MVVM.View
 {
     public partial class HomePage : ContentPage
@@ -5,6 +11,55 @@ namespace FotoApp.MVVM.View
         public HomePage()
         {
             InitializeComponent();
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await LoadWeatherAsync();
+        }
+
+        private async Task LoadWeatherAsync()
+        {
+            try
+            {
+                // OpenWeatherMap API gegevens
+                string apiKey = "f10226c44c4855a55cac1d73b84c0cbc";
+                // Gebruik "Heerlen,NL" zodat de locatie duidelijk is
+                string city = "Heerlen,NL";
+                string url = $"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={apiKey}&units=metric";
+
+                using (HttpClient client = new HttpClient())
+                {
+                    var response = await client.GetAsync(url);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var json = await response.Content.ReadAsStringAsync();
+                        using (JsonDocument doc = JsonDocument.Parse(json))
+                        {
+                            var root = doc.RootElement;
+                            double temp = root.GetProperty("main").GetProperty("temp").GetDouble();
+                            string description = "";
+                            if (root.TryGetProperty("weather", out JsonElement weatherArray) &&
+                                weatherArray.GetArrayLength() > 0)
+                            {
+                                description = weatherArray[0].GetProperty("description").GetString();
+                            }
+                            WeatherLabel.Text = $"{city}: {temp:F1}°C, {description}";
+                        }
+                    }
+                    else
+                    {
+                        // Log de response-content voor meer inzicht
+                        var errorContent = await response.Content.ReadAsStringAsync();
+                        WeatherLabel.Text = $"Weer info niet beschikbaar ({response.StatusCode}): {errorContent}";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                WeatherLabel.Text = $"Error: {ex.Message}";
+            }
         }
 
         private async void OnLogoutButtonClicked(object sender, EventArgs e)
