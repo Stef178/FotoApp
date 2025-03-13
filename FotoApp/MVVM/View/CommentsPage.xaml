@@ -5,7 +5,7 @@
              xmlns:vm="clr-namespace:FotoApp.MVVM.ViewModel"
              x:Class="FotoApp.MVVM.View.CommentsPage"
              Title="CommentsPage">
-    <!-- Stel de BindingContext in op het CommentsViewModel -->
+    
     <ContentPage.BindingContext>
         <vm:CommentsViewModel />
     </ContentPage.BindingContext>
@@ -21,17 +21,17 @@
                 <DataTemplate>
                     <Frame Padding="10" Margin="5" BorderColor="Gray" CornerRadius="5">
                         <StackLayout Spacing="10">
-                            <!-- Toon de naam van de foto-eigenaar bovenaan -->
+                            
                             <Label Text="{Binding Photo.User.Username, StringFormat='Foto van: {0}'}" 
                                    FontAttributes="Bold" 
                                    HorizontalOptions="Center" />
 
-                            <!-- De foto weergeven -->
+                            
                             <Image Source="{Binding Photo.ImagePath}" 
                                    Aspect="AspectFill" 
                                    HeightRequest="200" />
 
-                            <!-- Toon bestaande reacties met gebruikersnaam -->
+                            
                             <Label Text="Reacties:" FontAttributes="Bold" />
                             <CollectionView ItemsSource="{Binding Comments}">
                                 <CollectionView.ItemTemplate>
@@ -45,7 +45,7 @@
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
 
-                            <!-- Nieuwe reactie: Entry en knop -->
+                            
                             <Entry Placeholder="Type je reactie..."
                                    Text="{Binding NewCommentText}" />
                             <Button Text="Reageer"
@@ -56,7 +56,7 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <!-- De iconbar blijft onderaan staan -->
+       
         <controls:IconBar Grid.Row="1" />
     </Grid>
 </ContentPage>

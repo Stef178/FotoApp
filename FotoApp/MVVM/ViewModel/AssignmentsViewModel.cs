@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using FotoApp.MVVM.Model;
 using Microsoft.Maui.Controls;
-using System.Timers; // Zorg ervoor dat je System.Timers gebruikt
+using System.Timers;
 using System.ComponentModel;
 
 namespace FotoApp.MVVM.View
@@ -16,20 +16,20 @@ namespace FotoApp.MVVM.View
         private string _currentPhotoPath;
         private ObservableCollection<Assignment> _upcomingAssignments;
         private bool _isSaveButtonVisible;
-        private bool _isStartButtonVisible = true; // De start knop is standaard zichtbaar
-        private bool _isPhotoButtonVisible = false; // De foto knop is eerst niet zichtbaar
-        private bool _isTimerVisible = false; // De timer is eerst niet zichtbaar
-        private string _timerText = "00:00"; // De tekst van de timer
-        private System.Timers.Timer _timer; // De timer
-        private int _remainingTimeInSeconds; // Huidige resterende tijd in seconden
+        private bool _isStartButtonVisible = true;
+        private bool _isPhotoButtonVisible = false; 
+        private bool _isTimerVisible = false; 
+        private string _timerText = "00:00"; 
+        private System.Timers.Timer _timer; 
+        private int _remainingTimeInSeconds; 
 
         public AssignmentsViewModel()
         {
             _upcomingAssignments = new ObservableCollection<Assignment>();
             LoadAssignments();
 
-            // Maak de timer aan, maar start deze nog niet
-            _timer = new System.Timers.Timer(1000); // Stel de interval in op 1 seconde (1000 ms)
+            
+            _timer = new System.Timers.Timer(1000);
             _timer.Elapsed += OnTimerElapsed;
         }
 
@@ -144,7 +144,7 @@ namespace FotoApp.MVVM.View
         public ICommand TakePhotoCommand => new Command(async () => await ExecuteTakePhoto());
         public ICommand SavePhotoCommand => new Command(async () => await ExecuteSavePhoto());
 
-        // StartTimerCommand voor de Start-knop
+        
         public ICommand StartTimerCommand => new Command(async () => await StartTimer());
 
         private async Task ExecuteTakePhoto()
@@ -196,7 +196,7 @@ namespace FotoApp.MVVM.View
             }
         }
 
-        // De timer wordt elke seconde bijgewerkt
+       
         private void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
             if (CurrentAssignment != null && CurrentAssignment.IsTimerRunning)
@@ -211,32 +211,32 @@ namespace FotoApp.MVVM.View
                 }
                 else
                 {
-                    // Stop de timer als de tijd om is
+                   
                     _timer.Stop();
                     CurrentAssignment.IsTimerRunning = false;
                     OnPropertyChanged(nameof(CurrentAssignment.IsTimerRunning));
 
-                    // Verberg de "Maak foto"-knop als de timer afgelopen is
+                    
                     IsPhotoButtonVisible = false;
                 }
             }
         }
 
 
-        // Start de timer
+        
         private async Task StartTimer()
         {
             if (CurrentAssignment == null) return;
 
-            // Start de timer alleen als de timer niet al draait
+            
             if (!CurrentAssignment.IsTimerRunning)
             {
                 CurrentAssignment.IsTimerRunning = true;
                 _remainingTimeInSeconds = CurrentAssignment.DeadlineInMinutes * 60; // Zet de resterende tijd in seconden
                 _timer.Start();
-                IsStartButtonVisible = false; // Verberg de Start knop
-                IsPhotoButtonVisible = true; // Toon de Maak foto knop
-                IsTimerVisible = true; // Toon de Timer
+                IsStartButtonVisible = false; 
+                IsPhotoButtonVisible = true; 
+                IsTimerVisible = true; 
                 OnPropertyChanged(nameof(CurrentAssignment.IsTimerRunning));
             }
         }

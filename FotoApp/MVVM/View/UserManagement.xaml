@@ -11,13 +11,13 @@
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="30">
 
-            <!-- Titel Sectie -->
+            
             <StackLayout Spacing="5" HorizontalOptions="Center">
                 <Label Text="Account Beheer" FontSize="Large" FontAttributes="Bold" />
                 <BoxView HeightRequest="2" WidthRequest="200" Color="Black" HorizontalOptions="Center" />
             </StackLayout>
 
-            <!-- Frequentie Instellingen -->
+            
             <StackLayout Padding="15" Spacing="10">
                 <Label Text="{Binding CurrentUser.Frequency, StringFormat='Je huidige frequentie: {0}'}"
                        FontSize="18" 
@@ -29,7 +29,7 @@
                         WidthRequest="250" />
             </StackLayout>
 
-            <!-- Punten Balans -->
+            
             <StackLayout Padding="15" Spacing="10">
                 <Label Text="Punten Balans:" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" />
                 <Label Text="{Binding PointsBalance}" FontSize="22" TextColor="Green" HorizontalOptions="Center" />
@@ -40,7 +40,7 @@
                         Padding="10" />
             </StackLayout>
 
-            <!-- Supermembership Sectie -->
+            
             <StackLayout Padding="15" Spacing="15">
                 <Label Text="Supermembership" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" />
                 <Button Text="Koop Supermembership (5 Euro per maand)" 

@@ -14,7 +14,7 @@ namespace FotoApp.MVVM.ViewModel
 
         private async void Navigate(string pageName)
         {
-            // Switch voor verschillende pagina's
+            
             Page page = pageName switch
             {
 				"HomePage" => new FotoApp.MVVM.View.HomePage(),
@@ -26,7 +26,7 @@ namespace FotoApp.MVVM.ViewModel
 
             if (page != null)
             {
-                // Zorg dat er een NavigationPage is ingesteld in App.xaml.cs
+                
                 await Application.Current.MainPage.Navigation.PushAsync(page);
             }
         }

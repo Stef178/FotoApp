@@ -8,7 +8,7 @@ namespace FotoApp.MVVM.View
         public UserPhotos()
         {
             InitializeComponent();
-            BindingContext = new UserPhotosViewModel(); // Geen database-parameter meer nodig
+            BindingContext = new UserPhotosViewModel();
         }
     }
 }

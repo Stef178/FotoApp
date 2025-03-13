@@ -18,19 +18,19 @@
                         <Label Text="{Binding CurrentAssignment.Description}" FontSize="14" />
                         <Image Source="{Binding CurrentPhotoPath}" HeightRequest="200" />
 
-                        <!-- Foto maken knop -->
+                        
                         <Button Text="Foto maken" Command="{Binding TakePhotoCommand}" 
                                 IsVisible="{Binding IsPhotoButtonVisible}" />
 
-                        <!-- Opslaan knop -->
+                        
                         <Button Text="Opslaan" Command="{Binding SavePhotoCommand}" 
                                 IsVisible="{Binding IsSaveButtonVisible}" />
 
-                        <!-- Start opdracht knop -->
+                        
                         <Button Text="Start Opdracht" Command="{Binding StartTimerCommand}"
                                 IsVisible="{Binding IsStartButtonVisible}" />
 
-                        <!-- Countdown van resterende tijd -->
+                        
                         <Label Text="{Binding TimerText}" 
                                IsVisible="{Binding IsTimerVisible}" 
                                FontSize="Medium" HorizontalOptions="Center" />
@@ -38,7 +38,7 @@
                 </Frame>
             </StackLayout>
 
-            <!-- Geen opdrachten beschikbaar melding -->
+            
             <Label Text="Geen opdrachten beschikbaar" FontSize="18" 
                    HorizontalOptions="Center" TextColor="Red"
                    IsVisible="{Binding IsCurrentAssignmentEmpty}" />
@@ -61,7 +61,7 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <!-- Geen aankomende opdrachten melding -->
+            
             <Label Text="Geen aankomende opdrachten" FontSize="18" 
                    HorizontalOptions="Center" TextColor="Red"
                    IsVisible="{Binding IsUpcomingAssignmentsEmpty}" />

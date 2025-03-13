@@ -17,18 +17,18 @@
                 BorderWidth="0"
                 HeightRequest="40" />
 
-        <!-- Opdrachtenlijst zonder scroll -->
+        
         <CollectionView x:Name="AssignmentsCollectionView" ItemsSource="{Binding Assignments}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame Padding="10" Margin="5" BorderColor="LightGray">
                         <VerticalStackLayout Spacing="5">
-                            <!-- Opdrachtinformatie -->
+                            
                             <Label Text="{Binding Title}" FontSize="Medium" HorizontalOptions="StartAndExpand"/>
                             <Label Text="{Binding Theme.Name}" FontSize="Small" TextColor="Gray"/>
                             <Label Text="{Binding DeadlineInMinutes, StringFormat='Deadline: {0} minuten'}" FontSize="Small" TextColor="Gray"/>
 
-                            <!-- Knoppen onder de opdracht -->
+                            
                             <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
                                 <Button Text="Bewerk" 
                                         Clicked="OnEditAssignment" 

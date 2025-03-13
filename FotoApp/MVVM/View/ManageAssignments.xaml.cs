@@ -46,7 +46,7 @@ namespace FotoApp.MVVM.View
 
         private async void OnAddAssignment(object sender, EventArgs e)
         {
-            // Thema kiezen
+            
             if (Themes.Count == 0)
             {
                 await DisplayAlert("Fout", "Er zijn geen thema's beschikbaar!", "OK");
@@ -58,7 +58,7 @@ namespace FotoApp.MVVM.View
             if (selectedTheme == "Annuleer" || selectedTheme == null)
                 return;
 
-            // Titel en beschrijving invoeren
+            
             string title = await DisplayPromptAsync("Nieuwe Opdracht", "Titel:");
             string description = await DisplayPromptAsync("Nieuwe Opdracht", "Beschrijving:");
 
@@ -113,7 +113,7 @@ namespace FotoApp.MVVM.View
                 var assignment = await App.Database.GetAsync<Assignment>(assignmentId);
                 if (assignment != null)
                 {
-                    // Thema kiezen
+                    
                     string selectedTheme = await DisplayActionSheet("Kies een thema", "Annuleer", null, Themes.Select(t => t.Name).ToArray());
 
                     if (selectedTheme == "Annuleer" || selectedTheme == null)
@@ -134,8 +134,8 @@ namespace FotoApp.MVVM.View
                     var theme = Themes.FirstOrDefault(t => t.Name == selectedTheme);
                     assignment.Title = newTitle;
                     assignment.Description = newDescription;
-                    assignment.DeadlineInMinutes = newDeadlineInMinutes; // Bijwerken van de deadline
-                    assignment.ThemeId = theme.Id; // Bijwerken van het thema
+                    assignment.DeadlineInMinutes = newDeadlineInMinutes; 
+                    assignment.ThemeId = theme.Id; 
 
                     await App.Database.UpdateAsync(assignment);
                     LoadAssignments();

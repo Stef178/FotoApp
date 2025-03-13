@@ -23,7 +23,7 @@ namespace FotoApp.MVVM.ViewModel
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(PointsBalance));
                 OnPropertyChanged(nameof(IsSuperMember));
-                OnPropertyChanged(nameof(SuperMembershipStatus)); // Update status when user changes
+                OnPropertyChanged(nameof(SuperMembershipStatus)); 
             }
         }
 
@@ -113,7 +113,7 @@ namespace FotoApp.MVVM.ViewModel
             await App.Database.UpdateAsync(CurrentUser);
             OnPropertyChanged(nameof(IsSuperMember));
             OnPropertyChanged(nameof(PointsBalance));
-            OnPropertyChanged(nameof(SuperMembershipStatus)); // Update status after purchase
+            OnPropertyChanged(nameof(SuperMembershipStatus)); 
         }
 
         public async Task CancelSuperMembershipAsync()
@@ -123,7 +123,7 @@ namespace FotoApp.MVVM.ViewModel
             CurrentUser.IsSuperMember = false;
             await App.Database.UpdateAsync(CurrentUser);
             OnPropertyChanged(nameof(IsSuperMember));
-            OnPropertyChanged(nameof(SuperMembershipStatus)); // Update status after cancellation
+            OnPropertyChanged(nameof(SuperMembershipStatus)); 
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

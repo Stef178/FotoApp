@@ -21,9 +21,9 @@ namespace FotoApp.MVVM.Model
         [Ignore]
         public string Countdown { get; set; }
 
-        public bool IsAvailable { get; set; } = true; // Indicates if the assignment is currently available
+        public bool IsAvailable { get; set; } = true;
         [NotNull]
-        public int DeadlineInMinutes { get; set; } // Time limit for the assignment in minutes
+        public int DeadlineInMinutes { get; set; }
 
         [NotNull]
         public bool IsCompleted { get; set; } = false;
@@ -37,9 +37,9 @@ namespace FotoApp.MVVM.Model
         [Ignore]
         public AssignmentTheme Theme { get; set; }
 
-        // Nieuwe eigenschappen voor timerfunctionaliteit
-        public int RemainingTimeInMinutes { get; set; } = 0; // Resterende tijd voor de opdracht
-        public bool IsTimerRunning { get; set; } = false; // Of de timer actief is
+        
+        public int RemainingTimeInMinutes { get; set; } = 0;
+        public bool IsTimerRunning { get; set; } = false;
     }
 }
 

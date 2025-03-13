@@ -23,7 +23,7 @@ namespace FotoApp.MVVM.View
         {
             try
             {
-                // OpenWeatherMap API gegevens
+               
                 string apiKey = "f10226c44c4855a55cac1d73b84c0cbc";
                 string city = "Heerlen,NL";
                 string url = $"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={apiKey}&units=metric";
@@ -81,7 +81,7 @@ namespace FotoApp.MVVM.View
             await Navigation.PushAsync(new CommentsPage());
         }
 
-        // Nieuwe navigatie naar de Inspiratie-pagina
+        
         private async void OnInspirationClicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new InspirationPage());

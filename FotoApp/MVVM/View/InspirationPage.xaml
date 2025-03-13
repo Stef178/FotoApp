@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FotoApp.MVVM.View.InspirationPage"
              Title="Inspiratie">
-    <!-- Wrap de hele inhoud in een ScrollView -->
+    
     <ScrollView>
         <VerticalStackLayout>
             <Label Text="Inspiratie" 

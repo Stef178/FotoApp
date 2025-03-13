@@ -27,7 +27,7 @@ namespace FotoApp.MVVM.View
         {
             try
             {
-                // Pexels API gegevens (vervang "YOUR_PEXLS_API_KEY" door jouw API-key)
+                
                 string apiKey = "0B2Ft17LjCWlp0nR6PuuabmKge3ttjJ7a1B1UqDAQRPEgLUQ0xqQvwzt";
                 string url = "https://api.pexels.com/v1/curated?per_page=10";
 
