@@ -231,6 +231,15 @@ namespace FotoApp.MVVM.View
             
             if (!CurrentAssignment.IsTimerRunning)
             {
+                
+                try
+                {
+                    Vibration.Vibrate(TimeSpan.FromMilliseconds(500));
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Vibration failed: {ex.Message}");
+                }
                 CurrentAssignment.IsTimerRunning = true;
                 _remainingTimeInSeconds = CurrentAssignment.DeadlineInMinutes * 60; // Zet de resterende tijd in seconden
                 _timer.Start();
