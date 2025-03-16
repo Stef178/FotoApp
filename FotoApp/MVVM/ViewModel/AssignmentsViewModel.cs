@@ -17,18 +17,17 @@ namespace FotoApp.MVVM.View
         private ObservableCollection<Assignment> _upcomingAssignments;
         private bool _isSaveButtonVisible;
         private bool _isStartButtonVisible = true;
-        private bool _isPhotoButtonVisible = false; 
-        private bool _isTimerVisible = false; 
-        private string _timerText = "00:00"; 
-        private System.Timers.Timer _timer; 
-        private int _remainingTimeInSeconds; 
+        private bool _isPhotoButtonVisible = false;
+        private bool _isTimerVisible = false;
+        private string _timerText = "00:00";
+        private System.Timers.Timer _timer;
+        private int _remainingTimeInSeconds;
 
         public AssignmentsViewModel()
         {
             _upcomingAssignments = new ObservableCollection<Assignment>();
             LoadAssignments();
 
-            
             _timer = new System.Timers.Timer(1000);
             _timer.Elapsed += OnTimerElapsed;
         }
@@ -125,10 +124,17 @@ namespace FotoApp.MVVM.View
 
         private async void LoadAssignments()
         {
+            var activeUser = App.Database.GetActiveUser();
             var assignments = await App.Database.GetAllAsync<Assignment>();
-            var availableAssignments = assignments.Where(a => !a.IsCompleted).ToList();
+            var completedAssignments = await App.Database.GetAllAsync<CompletedAssignment>();
+
+            // Filter de opdrachten die de actieve gebruiker nog niet heeft voltooid.
+            var availableAssignments = assignments
+                .Where(a => !completedAssignments.Any(c => c.AssignmentId == a.Id && c.UserId == activeUser.Id))
+                .ToList();
 
             CurrentAssignment = availableAssignments.FirstOrDefault();
+
             UpcomingAssignments.Clear();
             foreach (var assignment in availableAssignments.Skip(1))
             {
@@ -143,8 +149,6 @@ namespace FotoApp.MVVM.View
 
         public ICommand TakePhotoCommand => new Command(async () => await ExecuteTakePhoto());
         public ICommand SavePhotoCommand => new Command(async () => await ExecuteSavePhoto());
-
-        
         public ICommand StartTimerCommand => new Command(async () => await StartTimer());
 
         private async Task ExecuteTakePhoto()
@@ -175,13 +179,19 @@ namespace FotoApp.MVVM.View
             {
                 if (string.IsNullOrEmpty(CurrentPhotoPath)) return;
 
-                var newPhoto = new Photo { ImagePath = CurrentPhotoPath, UserId = App.Database.GetActiveUser().Id };
+                var activeUser = App.Database.GetActiveUser();
+                var newPhoto = new Photo { ImagePath = CurrentPhotoPath, UserId = activeUser.Id };
                 await App.Database.AddAsync(newPhoto);
 
                 if (CurrentAssignment != null)
                 {
-                    CurrentAssignment.IsCompleted = true;
-                    await App.Database.UpdateAsync(CurrentAssignment);
+                    // Voeg een record toe dat de opdracht door de actieve gebruiker is voltooid.
+                    var completed = new CompletedAssignment
+                    {
+                        AssignmentId = CurrentAssignment.Id,
+                        UserId = activeUser.Id
+                    };
+                    await App.Database.AddAsync(completed);
                 }
 
                 CurrentAssignment = null;
@@ -196,7 +206,6 @@ namespace FotoApp.MVVM.View
             }
         }
 
-       
         private void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
             if (CurrentAssignment != null && CurrentAssignment.IsTimerRunning)
@@ -211,27 +220,20 @@ namespace FotoApp.MVVM.View
                 }
                 else
                 {
-                   
                     _timer.Stop();
                     CurrentAssignment.IsTimerRunning = false;
                     OnPropertyChanged(nameof(CurrentAssignment.IsTimerRunning));
-
-                    
                     IsPhotoButtonVisible = false;
                 }
             }
         }
 
-
-        
         private async Task StartTimer()
         {
             if (CurrentAssignment == null) return;
 
-            
             if (!CurrentAssignment.IsTimerRunning)
             {
-                
                 try
                 {
                     Vibration.Vibrate(TimeSpan.FromMilliseconds(500));
@@ -241,11 +243,11 @@ namespace FotoApp.MVVM.View
                     Console.WriteLine($"Vibration failed: {ex.Message}");
                 }
                 CurrentAssignment.IsTimerRunning = true;
-                _remainingTimeInSeconds = CurrentAssignment.DeadlineInMinutes * 60; // Zet de resterende tijd in seconden
+                _remainingTimeInSeconds = CurrentAssignment.DeadlineInMinutes * 60;
                 _timer.Start();
-                IsStartButtonVisible = false; 
-                IsPhotoButtonVisible = true; 
-                IsTimerVisible = true; 
+                IsStartButtonVisible = false;
+                IsPhotoButtonVisible = true;
+                IsTimerVisible = true;
                 OnPropertyChanged(nameof(CurrentAssignment.IsTimerRunning));
             }
         }
@@ -254,5 +256,4 @@ namespace FotoApp.MVVM.View
         protected void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
-
 }

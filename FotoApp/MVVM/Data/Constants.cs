@@ -24,6 +24,7 @@ namespace FotoApp.MVVM.Data
                 _database.CreateTableAsync<Photo>().Wait();
                 _database.CreateTableAsync<Transaction>().Wait();
                 _database.CreateTableAsync<AssignmentTheme>().Wait();
+                _database.CreateTableAsync<CompletedAssignment>().Wait();
 
                 InitializeThemesAsync();
             }

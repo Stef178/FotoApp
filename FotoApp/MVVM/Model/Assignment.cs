@@ -53,3 +53,15 @@ public class AssignmentTheme
         [NotNull]
         public string Name { get; set; }
     }
+
+public class CompletedAssignment
+{
+    [PrimaryKey, AutoIncrement]
+    public int Id { get; set; }
+
+    [NotNull]
+    public int AssignmentId { get; set; }
+
+    [NotNull]
+    public int UserId { get; set; }
+}
